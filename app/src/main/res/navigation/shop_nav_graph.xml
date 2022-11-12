@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/fragment_home">
+
+    <fragment
+        android:id="@+id/fragment_home"
+        android:name="com.korol.myapplication.ui.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home"
+        >
+        <action
+            android:id="@+id/action_fragment_home_to_fragment_filters"
+            app:destination="@id/fragment_filters" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_card"
+        android:name="com.korol.myapplication.ui.cart.CartFragment"
+        android:label="CartFragment"
+        tools:layout="@layout/fragment_cart"
+        />
+    <fragment
+        android:id="@+id/fragment_favorites"
+        tools:layout="@layout/fragment_favorites"
+        android:name="com.korol.myapplication.ui.favorites.FavoritesFragment"
+        android:label="FavoritesFragment" />
+    <fragment
+        android:id="@+id/fragment_profile"
+        tools:layout="@layout/fragment_profile"
+        android:name="com.korol.myapplication.ui.profile.ProfileFragment"
+        android:label="ProfileFragment" />
+    <dialog
+        android:id="@+id/fragment_filters"
+        android:name="com.korol.myapplication.ui.filters.FiltersFragment"
+        android:label="FiltersFragment"
+        tools:layout="@layout/fragment_profile"
+        />
+</navigation>
