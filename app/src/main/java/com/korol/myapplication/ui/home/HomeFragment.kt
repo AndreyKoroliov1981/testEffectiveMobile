@@ -57,6 +57,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel = ViewModelProvider(this, vmFactory).get(HomeViewModel::class.java)
         setSelectCategoryListeners()
         setFilterListener()
+
         val gestureDetector = GestureDetector(requireContext(), SwipeListener())
         viewBinding.isHotSales.setOnTouchListener { v, event ->
             gestureDetector.onTouchEvent(event)
@@ -113,14 +114,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val swipeMinDistance = 75
             val swipeMaxOffPath = 250
             val swipeThresholdVelocity = 200
-            if (abs(e1.y - e2.y) > swipeMaxOffPath)
+            if (abs(e1.y - e2.y) > swipeMaxOffPath) {
                 return false
+            }
             // right to left swipe
             if (e1.x - e2.x > swipeMinDistance && abs(velocityX) > swipeThresholdVelocity) {
                 moveNextOrPrevious(1)
             } else if (e2.x - e1.x > swipeMinDistance && abs(velocityX) > swipeThresholdVelocity) {
                 moveNextOrPrevious(-1)
             }
+            return false
+        }
+        override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+            val action = HomeFragmentDirections.actionFragmentHomeToFragmentDetails(
+                    viewModel.stateFlow.value.hotSalesList[viewModel.stateFlow.value.currentHotSales].id
+                    )
+            Navigation.findNavController(viewBinding.root).navigate(action)
             return false
         }
     }
