@@ -24,4 +24,5 @@
     <string name="textChoiceBrand">Choice brand</string>
     <string name="textPrice">Price</string>
     <string name="textSize">Size</string>
+    <string name="textProductDetails">Product Details</string>
 </resources>

@@ -7,7 +7,7 @@
     <item
         android:id="@+id/fragment_card"
         android:title="@string/textMyCart"
-        android:icon="@drawable/ic_card"/>
+        android:icon="@drawable/ic_cart"/>
     <item
         android:id="@+id/fragment_favorites"
         android:title="@string/textFavourites"
