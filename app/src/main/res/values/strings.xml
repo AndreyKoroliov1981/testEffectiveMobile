@@ -25,4 +25,9 @@
     <string name="textPrice">Price</string>
     <string name="textSize">Size</string>
     <string name="textProductDetails">Product Details</string>
+    <string name="textShop">Shop</string>
+    <string name="textDetails">Details</string>
+    <string name="textFeatures">Features</string>
+    <string name="textSelect_color_and_capacity">Select color and capacity</string>
+
 </resources>

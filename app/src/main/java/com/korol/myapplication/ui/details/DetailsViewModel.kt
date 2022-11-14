@@ -3,16 +3,19 @@ package com.korol.myapplication.ui.details
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide.init
+import androidx.lifecycle.viewModelScope
 import com.korol.domain.details.DetailsInteractor
 import com.korol.myapplication.common.BaseViewModel
+import com.korol.myapplication.common.IsNotDetailsData
+import com.korol.myapplication.common.IsNotHomeData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.launch
 
 class DetailsViewModel @AssistedInject constructor(
     private val detailsInteractor: DetailsInteractor,
-    @Assisted productId: Int
+    @Assisted private val productId: Int
 ) : BaseViewModel<DetailsState>(DetailsState()) {
 
     @AssistedFactory
@@ -25,18 +28,49 @@ class DetailsViewModel @AssistedInject constructor(
         fun providesFactory(
             assistedFactory: DetailsViewModelFactory,
             productId: Int
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory{
-            override fun <T : ViewModel> create (modelClass: Class <T>) : T {
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return assistedFactory.create(productId) as T
             }
         }
     }
 
     init {
-        Log.d("my_tag", "viewmodel get productId = $productId")
+        updateData()
     }
 
-    fun hello() {
-        Log.d("my_tag", "viewModel hello")
+    private fun updateData() {
+        viewModelScope.launch {
+            try {
+                val data = detailsInteractor.getDetails(productId)
+                Log.d("my_tag", data.toString())
+                updateState {
+                    copy(
+                        detailsInfo = data
+                    )
+                }
+            } catch (e: Exception) {
+                Log.d("my_tag", "details info data error = ${e.message}")
+                sideEffectSharedFlow.emit(IsNotDetailsData(errorMessage = e.message.toString()))
+            }
+        }
+    }
+
+    fun onSwipe(delta: Int) {
+        if (stateFlow.value.detailsInfo != null) {
+            if (delta > 0) {
+                if (stateFlow.value.currentImage + 1 < stateFlow.value.detailsInfo!!.images.size) {
+                    updateState { copy(currentImage = currentImage + 1) }
+                }
+            } else {
+                if (stateFlow.value.currentImage - 1 >= 0) {
+                    updateState { copy(currentImage = currentImage - 1) }
+                }
+            }
+        }
+    }
+
+    fun onRetryClick() {
+        updateData()
     }
 }

@@ -11,7 +11,7 @@ class DetailsRepositoryImpl(
 ) : DetailsRepository {
     override suspend fun getDetails(id: Int): ProductDetails =
         withContext(Dispatchers.IO) {
-        val response = detailsRetrofitServices.getDetails(id).execute().body()
+        val response = detailsRetrofitServices.getDetails().execute().body()
         val data = detailsMapper.mapDetailsFromNetwork(response!!)
         return@withContext data
     }

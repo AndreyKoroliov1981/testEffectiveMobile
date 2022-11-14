@@ -2,14 +2,12 @@ package com.korol.myapplication.ui.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.GestureDetector
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
 import android.widget.FrameLayout
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -20,13 +18,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.korol.myapplication.R
 import com.korol.myapplication.app.App
 import com.korol.myapplication.common.IsNotHomeData
 import com.korol.myapplication.databinding.FragmentHomeBinding
+import com.korol.network.api.home.model.HomeStore
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -125,11 +123,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
             return false
         }
+
         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-            val action = HomeFragmentDirections.actionFragmentHomeToFragmentDetails(
+            if (viewModel.stateFlow.value.hotSalesList != emptyList<HomeStore>()) {
+                val action = HomeFragmentDirections.actionFragmentHomeToFragmentDetails(
                     viewModel.stateFlow.value.hotSalesList[viewModel.stateFlow.value.currentHotSales].id
-                    )
-            Navigation.findNavController(viewBinding.root).navigate(action)
+                )
+                Navigation.findNavController(viewBinding.root).navigate(action)
+            }
             return false
         }
     }
@@ -137,9 +138,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private enum class Direction { LEFT, RIGHT }
 
     private fun moveNextOrPrevious(delta: Int) {
-        if (delta > 0) setupAnimations(Direction.RIGHT)
-        if (delta < 0) setupAnimations(Direction.LEFT)
-        viewModel.onSwipe(delta)
+        if (viewModel.stateFlow.value.hotSalesList != emptyList<HomeStore>()) {
+            if (delta > 0) setupAnimations(Direction.RIGHT)
+            if (delta < 0) setupAnimations(Direction.LEFT)
+            viewModel.onSwipe(delta)
+        }
     }
 
     private fun setupAnimations(direction: Direction) {

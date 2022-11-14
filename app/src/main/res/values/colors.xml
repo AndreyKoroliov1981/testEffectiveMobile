@@ -13,5 +13,6 @@
     <color name="select_category_background">#B3B3C3</color>
     <color name="error_text">#FF0000</color>
     <color name="spinner_outline">#DCDCDC</color>
+    <color name="details_info">#B7B7B7</color>
 
 </resources>
