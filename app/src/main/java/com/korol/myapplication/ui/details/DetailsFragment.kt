@@ -85,24 +85,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                                 btnFavourites.isVisible = it.detailsInfo.isFavorites
                                 tvNameProduct.text = it.detailsInfo.title
                                 showRating(it.detailsInfo.rating)
-
-                                val adapter = DetailsPageAdapter(this@DetailsFragment)
-                                adapter.addFragment(TabShopFragment(),"Shop")
-                                adapter.addFragment(TabDetailsFragment(),"Details")
-                                adapter.addFragment(TabFeaturesFragment(),"Features")
-                                val list = arrayOf(it.detailsInfo.cpu, it.detailsInfo.camera, it.detailsInfo.sd, it.detailsInfo.ssd)
-                                childFragmentManager.setFragmentResult(
-                                    TAG_SHOP,
-                                    bundleOf(KEY_FOR_TAG_SHOP to list)
-                                )
-                                viewPager.adapter = adapter
-                                viewPager.currentItem = 0
-                                TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager) { tab, position ->
-                                    tab.text = adapter.getTabTitle(position)
-                                }.attach()
-
-                            } else {
-
+                                if (!it.initPager) showPager(arrayOf(it.detailsInfo.cpu, it.detailsInfo.camera, it.detailsInfo.sd, it.detailsInfo.ssd))
                             }
                         }
                     }
@@ -117,6 +100,22 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 }
             }
         }
+    }
+
+    private fun showPager(list: Array<String>){
+        val adapter = DetailsPageAdapter(this@DetailsFragment)
+        adapter.addFragment(TabShopFragment(),"Shop")
+        adapter.addFragment(TabDetailsFragment(),"Details")
+        adapter.addFragment(TabFeaturesFragment(),"Features")
+        childFragmentManager.setFragmentResult(
+            TAG_SHOP,
+            bundleOf(KEY_FOR_TAG_SHOP to list)
+        )
+        viewBinding.viewPager.adapter = adapter
+        viewBinding.viewPager.currentItem = 0
+        TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager) { tab, position ->
+            tab.text = adapter.getTabTitle(position)
+        }.attach()
     }
 
     private inner class SwipeListener : GestureDetector.SimpleOnGestureListener() {

@@ -49,6 +49,11 @@ class DetailsViewModel @AssistedInject constructor(
                         detailsInfo = data
                     )
                 }
+                updateState {
+                    copy(
+                        initPager = true
+                    )
+                }
             } catch (e: Exception) {
                 Log.d("my_tag", "details info data error = ${e.message}")
                 sideEffectSharedFlow.emit(IsNotDetailsData(errorMessage = e.message.toString()))
