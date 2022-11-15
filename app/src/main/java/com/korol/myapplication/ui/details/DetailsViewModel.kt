@@ -75,6 +75,18 @@ class DetailsViewModel @AssistedInject constructor(
         }
     }
 
+    fun onColorClick(number: Int) {
+        if (number != stateFlow.value.currentColor) {
+            updateState { copy(currentColor = number) }
+        }
+    }
+
+    fun onMemoryClick(number: Int) {
+        if (number != stateFlow.value.currentMemorySize) {
+            updateState { copy(currentMemorySize = number) }
+        }
+    }
+
     fun onRetryClick() {
         updateData()
     }

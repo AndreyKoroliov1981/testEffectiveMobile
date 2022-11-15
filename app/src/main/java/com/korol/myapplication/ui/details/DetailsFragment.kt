@@ -1,7 +1,14 @@
 package com.korol.myapplication.ui.details
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Layout
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.AlignmentSpan
 import android.util.Log
 import android.view.GestureDetector
 import android.view.Gravity
@@ -9,7 +16,9 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
 import android.widget.FrameLayout
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -17,6 +26,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
@@ -65,7 +75,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity?.applicationContext as App).appComponent.injectDetailsFragment(this)
-
+        setColorsClickListeners()
+        setMemoryClickListeners()
+        setButtonBackListeners()
         val gestureDetector = GestureDetector(requireContext(), SwipeListener())
         viewBinding.isHotSales.setOnTouchListener { v, event ->
             gestureDetector.onTouchEvent(event)
@@ -85,7 +97,21 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                                 btnFavourites.isVisible = it.detailsInfo.isFavorites
                                 tvNameProduct.text = it.detailsInfo.title
                                 showRating(it.detailsInfo.rating)
-                                if (!it.initPager) showPager(arrayOf(it.detailsInfo.cpu, it.detailsInfo.camera, it.detailsInfo.sd, it.detailsInfo.ssd))
+                                if (!it.initPager) {
+                                    showPager(
+                                        arrayOf(
+                                            it.detailsInfo.cpu,
+                                            it.detailsInfo.camera,
+                                            it.detailsInfo.sd,
+                                            it.detailsInfo.ssd
+                                        )
+                                    )
+                                    showColor(it.detailsInfo.color)
+                                    showMemorySize(it.detailsInfo.capacity)
+                                    viewBinding.btnAddToCart.text = getString(R.string.textBtnAdd, it.detailsInfo.price)
+                                }
+                                showChoiceColor(it.currentColor)
+                                showChoiceMemorySize(it.currentMemorySize)
                             }
                         }
                     }
@@ -102,11 +128,138 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
     }
 
-    private fun showPager(list: Array<String>){
+    private fun setButtonBackListeners() {
+        viewBinding.btnBack.setOnClickListener {
+            val action = DetailsFragmentDirections.actionFragmentDetailsToFragmentHome()
+            Navigation.findNavController(viewBinding.root).navigate(action)
+        }
+    }
+
+    private fun setColorsClickListeners() {
+        viewBinding.vColor1.setOnClickListener {
+            viewModel.onColorClick(0)
+        }
+        viewBinding.vColor2.setOnClickListener {
+            viewModel.onColorClick(1)
+        }
+    }
+
+    private fun setMemoryClickListeners() {
+        viewBinding.cvMemory1.setOnClickListener {
+            viewModel.onMemoryClick(0)
+        }
+        viewBinding.cvMemory2.setOnClickListener {
+            viewModel.onMemoryClick(1)
+        }
+    }
+
+    private fun showColor(colorList: List<String>) {
+        if (viewModel.stateFlow.value.detailsInfo != null)
+            for (i in 0 until colorList.size) {
+                when (i) {
+                    0 -> viewBinding.vColor1.setBackgroundTintList(
+                        ColorStateList.valueOf(colorList[i].toColorInt())
+                    )
+                    1 -> viewBinding.vColor2.setBackgroundTintList(
+                        ColorStateList.valueOf(colorList[i].toColorInt())
+                    )
+                }
+            }
+    }
+
+    private fun showChoiceColor(number: Int) {
+        when (number) {
+            0 -> {
+                viewBinding.ivChoiceColor1.isVisible = true
+                viewBinding.ivChoiceColor2.isVisible = false
+            }
+            1 -> {
+                viewBinding.ivChoiceColor1.isVisible = false
+                viewBinding.ivChoiceColor2.isVisible = true
+            }
+        }
+    }
+
+    private fun showMemorySize(memoryList: List<String>) {
+        if (viewModel.stateFlow.value.detailsInfo != null)
+            for (i in 0 until memoryList.size) {
+                when (i) {
+                    0 -> viewBinding.tvMemory1.text = getString(R.string.sizeMemory, memoryList[i])
+                    1 -> viewBinding.tvMemory2.text = getString(R.string.sizeMemory, memoryList[i])
+                }
+            }
+    }
+
+    private fun showChoiceMemorySize(number: Int) {
+        when (number) {
+            0 -> {
+                viewBinding.cvMemory1.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.orange
+                        )
+                    )
+                )
+                viewBinding.cvMemory2.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.white
+                        )
+                    )
+                )
+                viewBinding.tvMemory1.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.white
+                    )
+                )
+                viewBinding.tvMemory2.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.size_memory
+                    )
+                )
+            }
+            1 -> {
+                viewBinding.cvMemory1.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.white
+                        )
+                    )
+                )
+                viewBinding.cvMemory2.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.orange
+                        )
+                    )
+                )
+                viewBinding.tvMemory1.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.size_memory
+                    )
+                )
+                viewBinding.tvMemory2.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.white
+                    )
+                )
+            }
+        }
+    }
+
+    private fun showPager(list: Array<String>) {
         val adapter = DetailsPageAdapter(this@DetailsFragment)
-        adapter.addFragment(TabShopFragment(),"Shop")
-        adapter.addFragment(TabDetailsFragment(),"Details")
-        adapter.addFragment(TabFeaturesFragment(),"Features")
+        adapter.addFragment(TabShopFragment(), "Shop")
+        adapter.addFragment(TabDetailsFragment(), "Details")
+        adapter.addFragment(TabFeaturesFragment(), "Features")
         childFragmentManager.setFragmentResult(
             TAG_SHOP,
             bundleOf(KEY_FOR_TAG_SHOP to list)
@@ -177,8 +330,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
     }
 
-    private fun showRating(rating: Float){
-        for ( i in 1 .. 5) {
+    private fun showRating(rating: Float) {
+        for (i in 1..5) {
             if (rating.roundToInt() >= i) {
                 when (i) {
                     1 -> viewBinding.ivStar1.isVisible = true

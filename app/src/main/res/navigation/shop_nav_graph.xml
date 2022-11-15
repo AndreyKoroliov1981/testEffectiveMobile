@@ -37,7 +37,7 @@
         android:id="@+id/fragment_filters"
         android:name="com.korol.myapplication.ui.filters.FiltersFragment"
         android:label="FiltersFragment"
-        tools:layout="@layout/fragment_profile"
+        tools:layout="@layout/fragment_filters"
         />
     <fragment
         android:id="@+id/fragment_details"
@@ -48,5 +48,9 @@
         <argument
             android:name="productId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_fragment_details_to_fragment_home"
+            app:destination="@id/fragment_home"
+            />
     </fragment>
 </navigation>

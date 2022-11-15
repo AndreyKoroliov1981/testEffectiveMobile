@@ -29,5 +29,7 @@
     <string name="textDetails">Details</string>
     <string name="textFeatures">Features</string>
     <string name="textSelect_color_and_capacity">Select color and capacity</string>
+    <string name="sizeMemory">%1$s GB</string>
+    <string name="textBtnAdd">"Add to Cart              \$%1$d"</string>
 
 </resources>
