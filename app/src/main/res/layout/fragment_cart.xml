@@ -98,12 +98,16 @@
             >
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCartList"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="60dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/dividerTop"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                tools:listitem="@layout/item_product_cart"
                 />
 
             <androidx.constraintlayout.widget.Guideline
@@ -121,12 +125,12 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/textTotal"
+                app:layout_constraintBottom_toTopOf="@id/tvTextTotal"
                 android:background="@color/dividerTop"
                 />
 
             <TextView
-                android:id="@+id/textTotal"
+                android:id="@+id/tvTextTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="55dp"
@@ -136,11 +140,11 @@
                 android:letterSpacing="-0.02"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/textDelivery"
+                app:layout_constraintBottom_toTopOf="@+id/tvTextDelivery"
                 />
 
             <TextView
-                android:id="@+id/textValueTotal"
+                android:id="@+id/tvTextValueTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
@@ -148,12 +152,12 @@
                 android:letterSpacing="-0.02"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
-                app:layout_constraintBottom_toBottomOf="@+id/textTotal"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTextTotal"
                 tools:text="$6,000 us"
                 />
 
             <TextView
-                android:id="@+id/textDelivery"
+                android:id="@+id/tvTextDelivery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="55dp"
@@ -167,7 +171,7 @@
                 />
 
             <TextView
-                android:id="@+id/textValueDelivery"
+                android:id="@+id/tvTextValueDelivery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="26dp"

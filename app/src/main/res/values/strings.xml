@@ -36,5 +36,7 @@
     <string name="textCheckout">Checkout</string>
     <string name="textDelivery">Delivery</string>
     <string name="textTotal">Total</string>
+    <string name="itemGadgetTotalPrice">\$%1$d.00</string>
+    <string name="cartTotalPrice">\$%1$d us</string>
 
 </resources>

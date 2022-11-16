@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.Navigation
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -20,7 +22,9 @@ import com.korol.myapplication.R
 import com.korol.myapplication.app.App
 import com.korol.myapplication.common.IsNotHomeData
 import com.korol.myapplication.databinding.FragmentCartBinding
+import com.korol.myapplication.ui.details.DetailsFragmentDirections
 import com.korol.myapplication.ui.home.HomeViewModel
+import com.korol.network.api.cart.model.Gadget
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -31,9 +35,24 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     lateinit var vmFactory: CartViewModelFactory
     private lateinit var viewModel: CartViewModel
 
+    private var cartRVAdapter = CartRVAdapter(
+        object : RVOnClickBasketListener {
+            override fun onClicked(item: Gadget) {
+                viewModel.onClickedBasket(item)
+            }
+        },
+        object : RVOnClickCountListener {
+            override fun onClicked(item: Gadget, delta: Int) {
+                viewModel.onClickedCount(item, delta)
+            }
+        }
+    )
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity?.applicationContext as App).appComponent.injectCartFragment(this)
         viewModel = ViewModelProvider(this, vmFactory).get(CartViewModel::class.java)
+        viewBinding.rvCartList.adapter = cartRVAdapter
+        setButtonBackListeners()
 
         viewBinding.apply {
             lifecycleScope.launch {
@@ -41,7 +60,9 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                     launch {
                         viewModel.stateFlow.collect {
                             if (it.basket != null) {
-                                Log.d("my_tag", "basket = ${it.basket}")
+                                cartRVAdapter.updateList(it.basket.basket)
+                                tvTextValueDelivery.text = it.basket.delivery
+                                tvTextValueTotal.text = requireContext().getString(R.string.cartTotalPrice, it.basket.total)
                             }
                         }
                     }
@@ -56,7 +77,12 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                 }
             }
         }
+    }
 
+    private fun setButtonBackListeners() {
+        viewBinding.btnBack.setOnClickListener {
+            Navigation.findNavController(viewBinding.root).popBackStack()
+        }
     }
 
     private fun writeError(view: View, error: String) {

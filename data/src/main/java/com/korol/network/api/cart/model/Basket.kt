@@ -11,5 +11,6 @@ data class Gadget(
     val id: Int,
     val images: String,
     val price: Int,
-    val title: String
+    val title: String,
+    val count: Int = 1
 )

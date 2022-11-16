@@ -35,15 +35,10 @@ class DetailsViewModel @AssistedInject constructor(
         }
     }
 
-    init {
-        updateData()
-    }
-
     private fun updateData() {
         viewModelScope.launch {
             try {
                 val data = detailsInteractor.getDetails(productId)
-                Log.d("my_tag", data.toString())
                 updateState {
                     copy(
                         detailsInfo = data
@@ -88,6 +83,11 @@ class DetailsViewModel @AssistedInject constructor(
     }
 
     fun onRetryClick() {
+        updateData()
+    }
+
+    fun onBackUpdate() {
+        updateState { copy(detailsInfo = null, initPager = false) }
         updateData()
     }
 }
