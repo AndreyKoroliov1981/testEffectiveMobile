@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.fragment_home -> showBottomNav()
-                R.id.fragment_card -> showBottomNav()
+                R.id.fragment_shop -> showBottomNav()
                 R.id.fragment_favorites -> showBottomNav()
                 R.id.fragment_profile -> showBottomNav()
                 else -> hideBottomNav()

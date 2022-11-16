@@ -31,5 +31,10 @@
     <string name="textSelect_color_and_capacity">Select color and capacity</string>
     <string name="sizeMemory">%1$s GB</string>
     <string name="textBtnAdd">"Add to Cart              \$%1$d"</string>
+    <string name="textShopBottomNav">Shop</string>
+    <string name="textAddAddress">Add address</string>
+    <string name="textCheckout">Checkout</string>
+    <string name="textDelivery">Delivery</string>
+    <string name="textTotal">Total</string>
 
 </resources>

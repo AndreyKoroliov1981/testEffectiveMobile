@@ -15,5 +15,8 @@
     <color name="spinner_outline">#DCDCDC</color>
     <color name="details_info">#B7B7B7</color>
     <color name="size_memory">#8D8D8D</color>
+    <color name="dividerBottom">#33FFFFFF</color>
+    <color name="dividerTop">#40FFFFFF</color>
+    <color name="counter_background">#282843</color>
 
 </resources>

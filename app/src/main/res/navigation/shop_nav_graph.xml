@@ -52,5 +52,13 @@
             android:id="@+id/action_fragment_details_to_fragment_home"
             app:destination="@id/fragment_home"
             />
+        <action
+            android:id="@+id/action_fragment_details_to_fragment_card"
+            app:destination="@id/fragment_card" />
     </fragment>
+    <fragment
+        android:id="@+id/fragment_shop"
+        android:name="com.korol.myapplication.ui.shop.ShopFragment"
+        tools:layout="@layout/fragment_shop"
+        android:label="ShopFragment" />
 </navigation>

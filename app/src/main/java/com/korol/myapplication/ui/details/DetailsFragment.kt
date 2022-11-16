@@ -78,6 +78,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         setColorsClickListeners()
         setMemoryClickListeners()
         setButtonBackListeners()
+        setButtonCartListeners()
         val gestureDetector = GestureDetector(requireContext(), SwipeListener())
         viewBinding.isHotSales.setOnTouchListener { v, event ->
             gestureDetector.onTouchEvent(event)
@@ -131,6 +132,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private fun setButtonBackListeners() {
         viewBinding.btnBack.setOnClickListener {
             val action = DetailsFragmentDirections.actionFragmentDetailsToFragmentHome()
+            Navigation.findNavController(viewBinding.root).navigate(action)
+        }
+    }
+
+    private fun setButtonCartListeners() {
+        viewBinding.btnCart.setOnClickListener {
+            val action = DetailsFragmentDirections.actionFragmentDetailsToFragmentCard()
             Navigation.findNavController(viewBinding.root).navigate(action)
         }
     }

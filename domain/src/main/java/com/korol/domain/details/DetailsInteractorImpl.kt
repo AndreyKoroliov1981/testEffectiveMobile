@@ -5,7 +5,7 @@ import com.korol.repository.detail.DetailsRepository
 
 class DetailsInteractorImpl(
     private val detailsRepository: DetailsRepository
-): DetailsInteractor {
+) : DetailsInteractor {
     override suspend fun getDetails(id: Int): ProductDetails {
         return detailsRepository.getDetails(id)
     }
