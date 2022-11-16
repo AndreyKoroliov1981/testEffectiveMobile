@@ -110,7 +110,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                                     )
                                     showColor(it.detailsInfo.color)
                                     showMemorySize(it.detailsInfo.capacity)
-                                    viewBinding.btnAddToCart.text = getString(R.string.textBtnAdd, it.detailsInfo.price)
+                                    if (it.countProductsInCart != 0) {
+                                        tvCountProductInCart.isVisible = true
+                                        tvCountProductInCart.text = it.countProductsInCart.toString()
+                                    } else {
+                                        tvCountProductInCart.isVisible = false
+                                    }
+                                    btnAddToCart.text = getString(R.string.textBtnAdd, it.detailsInfo.price)
                                 }
                                 showChoiceColor(it.currentColor)
                                 showChoiceMemorySize(it.currentMemorySize)

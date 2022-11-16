@@ -46,6 +46,11 @@
                 >
             </TextView>
 
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                >
             <ImageButton
                 android:id="@+id/btnCart"
                 android:layout_width="wrap_content"
@@ -54,11 +59,19 @@
                 android:paddingBottom="11dp"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
-                android:layout_gravity="end"
                 android:layout_marginEnd="35dp"
                 android:background="@drawable/background_cart_button"
                 android:src="@drawable/ic_cart"
                 />
+                <TextView
+                    android:id="@+id/tvCountProductInCart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/deep_blue"
+                    tools:text="5"
+                    />
+            </FrameLayout>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 

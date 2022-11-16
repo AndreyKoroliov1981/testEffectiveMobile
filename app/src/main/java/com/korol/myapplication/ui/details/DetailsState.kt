@@ -7,5 +7,6 @@ data class DetailsState(
     val currentColor: Int = 0,
     val currentMemorySize: Int = 0,
     val detailsInfo: ProductDetails? = null,
-    val initPager: Boolean = false
+    val initPager: Boolean = false,
+    val countProductsInCart: Int = 0
 )
