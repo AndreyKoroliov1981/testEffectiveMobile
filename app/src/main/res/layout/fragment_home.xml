@@ -330,7 +330,7 @@
 
     </LinearLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -509,7 +509,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvBestSellerList"
                 android:layout_width="match_parent"
-                android:layout_height="1000dp"
+                android:layout_height="735dp"
                 android:layout_marginTop="21dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="18dp"
@@ -519,8 +519,7 @@
                 tools:listitem="@layout/item_bestseller_home_fragment"
                 />
 
-
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

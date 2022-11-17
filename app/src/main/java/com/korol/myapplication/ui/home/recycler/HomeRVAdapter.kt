@@ -1,5 +1,6 @@
 package com.korol.myapplication.ui.home.recycler
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -9,11 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.korol.myapplication.R
 import com.korol.myapplication.databinding.ItemBestsellerHomeFragmentBinding
-import com.korol.myapplication.databinding.ItemProductCartBinding
-import com.korol.myapplication.ui.cart.recycler.CartRVAdapter
-import com.korol.myapplication.ui.cart.recycler.RVOnClickBasketListener
-import com.korol.myapplication.ui.cart.recycler.RVOnClickCountListener
-import com.korol.network.api.cart.model.Gadget
 import com.korol.network.api.home.model.BestSeller
 
 class HomeRVAdapter(
@@ -68,6 +64,7 @@ class HomeRVAdapter(
             tvPriceWithoutDiscount.text = holder.binding.root.context.getString(
                 R.string.itemBestSellerPrice,asyncListDiffer.currentList[position].priceWithoutDiscount
             )
+            tvDiscountPrice.paintFlags = tvDiscountPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
     }
 }
