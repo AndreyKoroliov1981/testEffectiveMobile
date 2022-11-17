@@ -18,5 +18,7 @@
     <color name="dividerBottom">#33FFFFFF</color>
     <color name="dividerTop">#40FFFFFF</color>
     <color name="counter_background">#282843</color>
+    <color name="item_bestseller_background">#FBFBFB</color>
+    <color name="price_bestseller_discount_background">#CCCCCC</color>
 
 </resources>

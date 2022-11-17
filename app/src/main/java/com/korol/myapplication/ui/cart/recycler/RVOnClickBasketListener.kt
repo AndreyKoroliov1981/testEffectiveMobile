@@ -1,4 +1,4 @@
-package com.korol.myapplication.ui.cart
+package com.korol.myapplication.ui.cart.recycler
 
 import com.korol.network.api.cart.model.Gadget
 

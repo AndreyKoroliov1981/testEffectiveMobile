@@ -38,5 +38,6 @@
     <string name="textTotal">Total</string>
     <string name="itemGadgetTotalPrice">\$%1$d.00</string>
     <string name="cartTotalPrice">\$%1$d us</string>
+    <string name="itemBestSellerPrice">\$%1$d</string>
 
 </resources>

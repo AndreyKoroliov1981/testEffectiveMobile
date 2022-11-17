@@ -1,9 +1,7 @@
-package com.korol.myapplication.ui.cart
+package com.korol.myapplication.ui.cart.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -61,8 +59,10 @@ class CartRVAdapter(
                 .error(R.drawable.ic_error)
                 .into(picture)
             productName.text = asyncListDiffer.currentList[position].title
-            productTotalPrice.text = holder.binding.root.context.getString(R.string.itemGadgetTotalPrice,
-                (asyncListDiffer.currentList[position].price * asyncListDiffer.currentList[position].count))
+            productTotalPrice.text = holder.binding.root.context.getString(
+                R.string.itemGadgetTotalPrice,
+                (asyncListDiffer.currentList[position].price * asyncListDiffer.currentList[position].count)
+            )
             productCount.text = asyncListDiffer.currentList[position].count.toString()
         }
     }

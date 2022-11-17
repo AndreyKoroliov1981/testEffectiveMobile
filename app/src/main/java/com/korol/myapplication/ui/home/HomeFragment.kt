@@ -24,6 +24,13 @@ import com.korol.myapplication.R
 import com.korol.myapplication.app.App
 import com.korol.myapplication.common.IsNotHomeData
 import com.korol.myapplication.databinding.FragmentHomeBinding
+import com.korol.myapplication.ui.cart.recycler.CartRVAdapter
+import com.korol.myapplication.ui.cart.recycler.RVOnClickBasketListener
+import com.korol.myapplication.ui.cart.recycler.RVOnClickCountListener
+import com.korol.myapplication.ui.home.recycler.HomeRVAdapter
+import com.korol.myapplication.ui.home.recycler.RVOnClickListener
+import com.korol.network.api.cart.model.Gadget
+import com.korol.network.api.home.model.BestSeller
 import com.korol.network.api.home.model.HomeStore
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -48,14 +55,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var overscrollLeft: View
     private lateinit var overscrollRight: View
 
+    private var homeRVAdapter = HomeRVAdapter(
+        object : RVOnClickListener {
+            override fun onClicked(item: BestSeller) {
+                val action = HomeFragmentDirections.actionFragmentHomeToFragmentDetails(item.id)
+                Navigation.findNavController(viewBinding.root).navigate(action)
+            }
+        }
+    )
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity?.applicationContext as App).appComponent.injectHomeFragment(this)
         viewModel = ViewModelProvider(this, vmFactory).get(HomeViewModel::class.java)
+        viewBinding.rvBestSellerList.adapter = homeRVAdapter
         setSelectCategoryListeners()
         setFilterListener()
-
         val gestureDetector = GestureDetector(requireContext(), SwipeListener())
         viewBinding.isHotSales.setOnTouchListener { v, event ->
             gestureDetector.onTouchEvent(event)
@@ -87,6 +103,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                                 tvTitleHotSales.isVisible = false
                                 tvSubtitleHotSales.isVisible = false
                                 btnHotSalesBuy.isVisible = false
+                            }
+                            if (it.bestSellerList.isNotEmpty()) {
+                                rvBestSellerList.isVisible = true
+                                homeRVAdapter.updateList(it.bestSellerList)
+                            } else {
+                                rvBestSellerList.isVisible = false
                             }
                         }
                     }
