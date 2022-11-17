@@ -1,22 +1,14 @@
 package com.korol.myapplication.ui.details
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
-import android.text.Layout
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.AlignmentSpan
-import android.util.Log
 import android.view.GestureDetector
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
 import android.widget.FrameLayout
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.toColorInt
 import androidx.core.os.bundleOf
@@ -75,11 +67,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity?.applicationContext as App).appComponent.injectDetailsFragment(this)
-        viewModel.onBackUpdate()
+        viewModel.onCreateUpdate()
         setColorsClickListeners()
         setMemoryClickListeners()
         setButtonBackListeners()
         setButtonCartListeners()
+        setButtonAddToCartListeners()
         val gestureDetector = GestureDetector(requireContext(), SwipeListener())
         viewBinding.isHotSales.setOnTouchListener { v, event ->
             gestureDetector.onTouchEvent(event)
@@ -110,14 +103,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                                     )
                                     showColor(it.detailsInfo.color)
                                     showMemorySize(it.detailsInfo.capacity)
-                                    if (it.countProductsInCart != 0) {
-                                        tvCountProductInCart.isVisible = true
-                                        tvCountProductInCart.text = it.countProductsInCart.toString()
-                                    } else {
-                                        tvCountProductInCart.isVisible = false
-                                    }
                                     btnAddToCart.text = getString(R.string.textBtnAdd, it.detailsInfo.price)
                                 }
+                                showCountProductInCart(it.countProductsInCart)
                                 showChoiceColor(it.currentColor)
                                 showChoiceMemorySize(it.currentMemorySize)
                             }
@@ -133,6 +121,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     }
                 }
             }
+        }
+    }
+
+    private fun setButtonAddToCartListeners() {
+        viewBinding.btnAddToCart.setOnClickListener{
+            viewModel.onButtonAddToCartClick()
         }
     }
 
@@ -165,6 +159,15 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
         viewBinding.cvMemory2.setOnClickListener {
             viewModel.onMemoryClick(1)
+        }
+    }
+
+    private fun showCountProductInCart(count: Int) {
+        if (count != 0) {
+            viewBinding.tvCountProductInCart.isVisible = true
+            viewBinding.tvCountProductInCart.text = count.toString()
+        } else {
+            viewBinding.tvCountProductInCart.isVisible = false
         }
     }
 

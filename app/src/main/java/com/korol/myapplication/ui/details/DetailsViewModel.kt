@@ -8,7 +8,6 @@ import com.korol.domain.cart.CartInteractor
 import com.korol.domain.details.DetailsInteractor
 import com.korol.myapplication.common.BaseViewModel
 import com.korol.myapplication.common.IsNotDetailsData
-import com.korol.myapplication.common.IsNotHomeData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -90,8 +89,12 @@ class DetailsViewModel @AssistedInject constructor(
         updateData()
     }
 
-    fun onBackUpdate() {
+    fun onCreateUpdate() {
         updateState { copy(detailsInfo = null, initPager = false) }
         updateData()
+    }
+
+    fun onButtonAddToCartClick() {
+        updateState { copy(countProductsInCart = stateFlow.value.countProductsInCart + 1) }
     }
 }
