@@ -1,7 +1,6 @@
 package com.korol.domain.home
 
 import com.korol.network.api.home.model.HotSalesAndBestSeller
-import com.korol.repository.home.HomeRepository
 
 class HomeInteractorImpl(
     private val homeRepository: HomeRepository

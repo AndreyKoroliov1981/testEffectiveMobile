@@ -8,7 +8,7 @@ import kotlinx.coroutines.withContext
 class CartRepositoryImpl(
     private val cartMapper: CartMapper,
     private val cartRetrofitServices: CartRetrofitServices
-) : CartRepository {
+) : com.korol.domain.cart.CartRepository {
     override suspend fun getCart(): Basket =
         withContext(Dispatchers.IO) {
         val response = cartRetrofitServices.getCart().execute().body()

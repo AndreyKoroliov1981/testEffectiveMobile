@@ -8,7 +8,7 @@ import kotlinx.coroutines.withContext
 class HomeRepositoryImpl(
     private val homeMapper:  HomeMapper,
     private var homeRetrofitServices: HomeRetrofitServices
-    ) : HomeRepository {
+    ) : com.korol.domain.home.HomeRepository {
 
     override suspend fun getHotSalesAndBestSeller(): HotSalesAndBestSeller =
         withContext(Dispatchers.IO) {

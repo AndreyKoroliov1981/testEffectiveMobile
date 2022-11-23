@@ -1,4 +1,4 @@
-package com.korol.repository.home
+package com.korol.domain.home
 
 import com.korol.network.api.home.model.HotSalesAndBestSeller
 

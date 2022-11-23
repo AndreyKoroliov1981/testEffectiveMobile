@@ -1,4 +1,4 @@
-package com.korol.network.api.detail.model
+package com.korol.domain.details.model
 
 data class ProductDetails(
     val cpu: String,

@@ -35,6 +35,7 @@ class CartRVAdapter(
             binding.tvPlus.setOnClickListener {
                 onClickCountListener.onClicked(
                     asyncListDiffer.currentList[absoluteAdapterPosition],
+//                    asyncListDiffer.currentList[absoluteAdapterPosition],
                     1
                 )
             }

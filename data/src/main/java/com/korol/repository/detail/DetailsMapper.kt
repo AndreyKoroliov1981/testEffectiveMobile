@@ -1,6 +1,6 @@
 package com.korol.repository.detail
 
-import com.korol.network.api.detail.model.ProductDetails
+import com.korol.domain.details.model.ProductDetails
 import com.korol.network.api.detail.model.ProductDetailsResponse
 
 class DetailsMapper {

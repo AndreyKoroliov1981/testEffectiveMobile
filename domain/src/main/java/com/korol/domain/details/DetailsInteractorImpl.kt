@@ -1,7 +1,6 @@
 package com.korol.domain.details
 
-import com.korol.network.api.detail.model.ProductDetails
-import com.korol.repository.detail.DetailsRepository
+import com.korol.domain.details.model.ProductDetails
 
 class DetailsInteractorImpl(
     private val detailsRepository: DetailsRepository
